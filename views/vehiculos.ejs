@@ -1,0 +1,438 @@
+<%- include("partials/header", { title: "Vehículos" }) %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h2 class="fw-bold">
+            <i class="bi bi-bus-front"></i>
+            Gestión de Vehículos
+        </h2>
+
+        <p class="text-muted">
+            Administración de los vehículos de la UPTC
+        </p>
+
+    </div>
+
+</div>
+
+<!-- MENSAJES DE ERROR -->
+<% if (error) { %>
+
+    <div class="alert alert-danger alert-dismissible fade show">
+
+        <i class="bi bi-exclamation-triangle-fill"></i>
+
+        <%= error %>
+
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert">
+        </button>
+
+    </div>
+
+<% } %>
+
+<!-- MENSAJES DE ÉXITO -->
+<% if (mensaje) { %>
+
+    <div class="alert alert-success alert-dismissible fade show">
+
+        <i class="bi bi-check-circle-fill"></i>
+
+        <%= mensaje %>
+
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert">
+        </button>
+
+    </div>
+
+<% } %>
+
+
+<!-- FORMULARIO DE REGISTRO DE VEHÍCULOS -->
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-header bg-success text-white">
+
+        <i class="bi bi-plus-circle"></i>
+
+        Registrar vehículo
+
+    </div>
+
+
+    <div class="card-body">
+
+        <form
+            action="/vehiculos/crear"
+            method="POST">
+
+
+            <div class="row g-3">
+
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Placa
+                    </label>
+
+                    <input
+                        type="text"
+                        name="placa"
+                        class="form-control"
+                        placeholder="ABC123"
+                        required>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Tipo
+                    </label>
+
+                    <select
+                        name="tipo"
+                        class="form-select"
+                        required>
+
+                        <option value="">
+                            Seleccione...
+                        </option>
+
+                        <option value="Bus">
+                            Bus
+                        </option>
+
+                        <option value="Buseta">
+                            Buseta
+                        </option>
+
+                        <option value="Camioneta">
+                            Camioneta
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Marca
+                    </label>
+
+                    <input
+                        type="text"
+                        name="marca"
+                        class="form-control"
+                        required>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Modelo
+                    </label>
+
+                    <input
+                        type="number"
+                        name="modelo"
+                        class="form-control"
+                        min="1990"
+                        max="2030"
+                        required>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Capacidad
+                    </label>
+
+                    <input
+                        type="number"
+                        name="capacidad"
+                        class="form-control"
+                        min="1"
+                        required>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Color
+                    </label>
+
+                    <input
+                        type="text"
+                        name="color"
+                        class="form-control">
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Estado
+                    </label>
+
+                    <select
+                        name="estado"
+                        class="form-select">
+
+                        <option value="Disponible">
+                            Disponible
+                        </option>
+
+                        <option value="En servicio">
+                            En servicio
+                        </option>
+
+                        <option value="En mantenimiento">
+                            En mantenimiento
+                        </option>
+
+                        <option value="Inactivo">
+                            Inactivo
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Conductor asignado
+                    </label>
+
+                    <select
+                        name="conductor"
+                        class="form-select">
+
+                        <option value="">
+                            Sin conductor
+                        </option>
+
+                        <% conductores.forEach(conductor => { %>
+
+                            <option
+                                value="<%= conductor._id %>">
+
+                                <%= conductor.nombre %>
+                                <%= conductor.apellido %>
+
+                            </option>
+
+                        <% }) %>
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-12">
+
+                    <button
+                        type="submit"
+                        class="btn btn-success">
+
+                        <i class="bi bi-save"></i>
+
+                        Guardar vehículo
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- TABLA DE VEHÍCULOS REGISTRADOS -->
+
+<div class="card shadow-sm">
+
+    <div class="card-header">
+
+        <i class="bi bi-list-ul"></i>
+
+        Vehículos registrados
+
+    </div>
+
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-success">
+
+                    <tr>
+
+                        <th>Placa</th>
+                        <th>Tipo</th>
+                        <th>Marca</th>
+                        <th>Modelo</th>
+                        <th>Capacidad</th>
+                        <th>Conductor</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <% vehiculos.forEach(vehiculo => { %>
+
+                        <tr>
+
+                            <td class="fw-bold">
+                                <%= vehiculo.placa %>
+                            </td>
+
+                            <td>
+                                <%= vehiculo.tipo %>
+                            </td>
+
+                            <td>
+                                <%= vehiculo.marca %>
+                            </td>
+
+                            <td>
+                                <%= vehiculo.modelo %>
+                            </td>
+
+                            <td>
+                                <%= vehiculo.capacidad %>
+                            </td>
+
+                            <td>
+
+                                <% if (vehiculo.conductor) { %>
+
+                                    <%= vehiculo.conductor.nombre %>
+                                    <%= vehiculo.conductor.apellido %>
+
+                                <% } else { %>
+
+                                    <span class="text-muted">
+                                        Sin asignar
+                                    </span>
+
+                                <% } %>
+
+                            </td>
+
+
+                            <td>
+
+                                <% if (vehiculo.estado === "Disponible") { %>
+
+                                    <span class="badge text-bg-success">
+                                        Disponible
+                                    </span>
+
+                                <% } else if (vehiculo.estado === "En mantenimiento") { %>
+
+                                    <span class="badge text-bg-warning">
+                                        En mantenimiento
+                                    </span>
+
+                                <% } else if (vehiculo.estado === "Inactivo") { %>
+
+                                    <span class="badge text-bg-danger">
+                                        Inactivo
+                                    </span>
+
+                                <% } else { %>
+
+                                    <span class="badge text-bg-primary">
+                                        <%= vehiculo.estado %>
+                                    </span>
+
+                                <% } %>
+
+                            </td>
+
+
+                            <td>
+
+                                <div class="d-flex gap-1">
+
+
+                                    <a
+                                        href="/vehiculos/editar/<%= vehiculo._id %>"
+                                        class="btn btn-sm btn-warning">
+
+                                        <i class="bi bi-pencil"></i>
+
+                                    </a>
+
+
+                                    <form
+                                        action="/vehiculos/eliminar/<%= vehiculo._id %>"
+                                        method="POST"
+                                        onsubmit="return confirm('¿Está seguro de eliminar este vehículo?');">
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-sm btn-danger">
+
+                                            <i class="bi bi-trash"></i>
+
+                                        </button>
+
+                                    </form>
+
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<%- include("partials/footer") %>

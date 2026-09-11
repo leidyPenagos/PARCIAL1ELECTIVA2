@@ -1,0 +1,1213 @@
+<%- include("partials/header", { title: "Servicios" }) %>
+
+
+<div class="mb-4">
+
+    <h2 class="fw-bold">
+
+        <i class="bi bi-calendar-check"></i>
+
+        Gestión de Servicios de Transporte
+
+    </h2>
+
+    <p class="text-muted">
+
+        Programación y control de los servicios de transporte
+
+    </p>
+
+</div>
+
+
+<!-- MENSAJE DE ERROR -->
+
+<% if (error) { %>
+
+    <div
+        class="alert alert-danger alert-dismissible fade show"
+        role="alert">
+
+        <i class="bi bi-exclamation-triangle-fill"></i>
+
+        <%= error %>
+
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert">
+        </button>
+
+    </div>
+
+<% } %>
+
+<!-- MENSAJE DE ÉXITO -->
+<% if (mensaje) { %>
+
+    <div
+        class="alert alert-success alert-dismissible fade show"
+        role="alert">
+
+        <i class="bi bi-check-circle-fill"></i>
+
+        <%= mensaje %>
+
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert">
+        </button>
+
+    </div>
+
+<% } %>
+
+
+<!-- PROGRAMAR NUEVO SERVICIO -->
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-header bg-success text-white">
+
+        <i class="bi bi-calendar-plus"></i>
+
+        Programar nuevo servicio
+
+    </div>
+
+
+    <div class="card-body">
+
+        <form
+            action="/servicios/crear"
+            method="POST">
+
+            <div class="row g-3">
+
+
+                <!-- FECHA -->
+
+                <div class="col-md-4">
+
+                    <label
+                        for="fecha"
+                        class="form-label">
+
+                        Fecha
+
+                    </label>
+
+                    <input
+                        type="date"
+                        id="fecha"
+                        name="fecha"
+                        class="form-control"
+                        required>
+
+                </div>
+
+
+                <!-- TIPO DE EVENTO -->
+
+                <div class="col-md-8">
+
+                    <label
+                        for="tipoEvento"
+                        class="form-label">
+
+                        Tipo de evento
+
+                    </label>
+
+                    <select
+                        id="tipoEvento"
+                        name="tipoEvento"
+                        class="form-select"
+                        required>
+
+                        <option value="">
+                            Seleccione...
+                        </option>
+
+                        <option value="Actividad complementaria">
+                            Actividad complementaria
+                        </option>
+
+                        <option value="Visita académica">
+                            Visita académica
+                        </option>
+
+                        <option value="Comisión">
+                            Comisión
+                        </option>
+
+                        <option value="Otro">
+                            Otro
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- HORA SALIDA -->
+
+                <div class="col-md-6">
+
+                    <label
+                        for="horaSalida"
+                        class="form-label">
+
+                        Hora de salida
+
+                    </label>
+
+                    <input
+                        type="time"
+                        id="horaSalida"
+                        name="horaSalida"
+                        class="form-control"
+                        required>
+
+                </div>
+
+
+                <!-- HORA REGRESO -->
+
+                <div class="col-md-6">
+
+                    <label
+                        for="horaRegreso"
+                        class="form-label">
+
+                        Hora de regreso
+
+                    </label>
+
+                    <input
+                        type="time"
+                        id="horaRegreso"
+                        name="horaRegreso"
+                        class="form-control"
+                        required>
+
+                </div>
+
+
+                <!-- ORIGEN -->
+
+                <div class="col-md-6">
+
+                    <label
+                        for="origen"
+                        class="form-label">
+
+                        Origen
+
+                    </label>
+
+                    <div class="input-group">
+
+                        <span class="input-group-text">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                        </span>
+
+                        <input
+                            type="text"
+                            id="origen"
+                            name="origen"
+                            class="form-control"
+                            placeholder="Ej: Sogamoso"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DESTINO -->
+
+                <div class="col-md-6">
+
+                    <label
+                        for="destino"
+                        class="form-label">
+
+                        Destino
+
+                    </label>
+
+                    <div class="input-group">
+
+                        <span class="input-group-text">
+
+                            <i class="bi bi-geo-alt-fill"></i>
+
+                        </span>
+
+                        <input
+                            type="text"
+                            id="destino"
+                            name="destino"
+                            class="form-control"
+                            placeholder="Ej: Soatá"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASAJEROS -->
+
+                <div class="col-md-4">
+
+                    <label
+                        for="pasajeros"
+                        class="form-label">
+
+                        Número de pasajeros
+
+                    </label>
+
+                    <div class="input-group">
+
+                        <span class="input-group-text">
+
+                            <i class="bi bi-people"></i>
+
+                        </span>
+
+                        <input
+                            type="number"
+                            id="pasajeros"
+                            name="pasajeros"
+                            class="form-control"
+                            min="1"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- VEHÍCULO -->
+
+                <div class="col-md-4">
+
+                    <label
+                        for="vehiculo"
+                        class="form-label">
+
+                        Vehículo
+
+                    </label>
+
+                    <select
+                        id="vehiculo"
+                        name="vehiculo"
+                        class="form-select"
+                        required>
+
+                        <option value="">
+                            Seleccione...
+                        </option>
+
+
+                        <% vehiculos.forEach(vehiculo => { %>
+
+                            <% if (
+                                vehiculo.estado !== "En mantenimiento" &&
+                                vehiculo.estado !== "Inactivo"
+                            ) { %>
+
+                                <option
+                                    value="<%= vehiculo._id %>">
+
+                                    <%= vehiculo.placa %>
+                                    -
+                                    <%= vehiculo.tipo %>
+                                    -
+                                    <%= vehiculo.capacidad %>
+                                    pasajeros
+
+                                </option>
+
+                            <% } %>
+
+                        <% }) %>
+
+                    </select>
+
+                    <div class="form-text">
+
+                        Solo se muestran vehículos disponibles
+                        para servicio.
+
+                    </div>
+
+                </div>
+
+
+                <!-- CONDUCTOR -->
+
+                <div class="col-md-4">
+
+                    <label
+                        for="conductor"
+                        class="form-label">
+
+                        Conductor
+
+                    </label>
+
+                    <select
+                        id="conductor"
+                        name="conductor"
+                        class="form-select"
+                        required>
+
+                        <option value="">
+                            Seleccione...
+                        </option>
+
+
+                        <% conductores.forEach(conductor => { %>
+
+                            <% if (
+                                conductor.estado === "Activo"
+                            ) { %>
+
+                                <option
+                                    value="<%= conductor._id %>">
+
+                                    <%= conductor.nombre %>
+                                    <%= conductor.apellido %>
+                                    -
+                                    <%= conductor.categoriaLicencia %>
+
+                                </option>
+
+                            <% } %>
+
+                        <% }) %>
+
+                    </select>
+
+                    <div class="form-text">
+
+                        Solo conductores activos.
+
+                    </div>
+
+                </div>
+
+
+                <!-- SOLICITANTE -->
+
+                <div class="col-md-6">
+
+                    <label
+                        for="solicitante"
+                        class="form-label">
+
+                        Solicitante
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="solicitante"
+                        name="solicitante"
+                        class="form-control"
+                        placeholder="Nombre de quien solicita el servicio">
+
+                </div>
+
+
+                <!-- DESCRIPCIÓN -->
+
+                <div class="col-md-6">
+
+                    <label
+                        for="descripcion"
+                        class="form-label">
+
+                        Descripción
+
+                    </label>
+
+                    <textarea
+                        id="descripcion"
+                        name="descripcion"
+                        class="form-control"
+                        rows="2"
+                        placeholder="Descripción del servicio"></textarea>
+
+                </div>
+
+
+                <!-- BOTÓN PARA PROGRAMAR SERVICIO -->
+
+                <div class="col-12">
+
+                    <button
+                        type="submit"
+                        class="btn btn-success">
+
+                        <i class="bi bi-calendar-plus"></i>
+
+                        Programar servicio
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- SERVICIOS REGISTRADOS -->
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-header">
+
+        <i class="bi bi-list-check"></i>
+
+        Servicios programados
+
+    </div>
+
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table
+                class="table table-hover align-middle">
+
+                <thead class="table-success">
+
+                    <tr>
+
+                        <th>Fecha</th>
+
+                        <th>Horario</th>
+
+                        <th>Evento</th>
+
+                        <th>Ruta</th>
+
+                        <th>Pasajeros</th>
+
+                        <th>Vehículo</th>
+
+                        <th>Conductor</th>
+
+                        <th>Estado</th>
+
+                        <th>Acciones</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    <% if (servicios.length === 0) { %>
+
+                        <tr>
+
+                            <td
+                                colspan="9"
+                                class="text-center text-muted py-4">
+
+                                <i class="bi bi-info-circle"></i>
+
+                                No hay servicios registrados.
+
+                            </td>
+
+                        </tr>
+
+                    <% } %>
+
+
+                    <% servicios.forEach(servicio => { %>
+
+                        <tr>
+
+
+                            <!-- FECHA -->
+
+                            <td>
+
+                                <%= new Date(
+                                    servicio.fecha
+                                ).toLocaleDateString("es-CO") %>
+
+                            </td>
+
+
+                            <!-- HORARIO -->
+
+                            <td>
+
+                                <span class="badge text-bg-light">
+
+                                    <i class="bi bi-clock"></i>
+
+                                    <%= servicio.horaSalida %>
+
+                                </span>
+
+                                <br>
+
+                                <small class="text-muted">
+
+                                    hasta
+
+                                </small>
+
+                                <br>
+
+                                <span class="badge text-bg-light">
+
+                                    <%= servicio.horaRegreso %>
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- EVENTO -->
+
+                            <td>
+
+                                <%= servicio.tipoEvento %>
+
+                            </td>
+
+
+                            <!-- RUTA -->
+
+                            <td>
+
+                                <i class="bi bi-geo-alt"></i>
+
+                                <%= servicio.origen %>
+
+                                <br>
+
+                                <i class="bi bi-arrow-down"></i>
+
+                                <br>
+
+                                <i class="bi bi-geo-alt-fill"></i>
+
+                                <%= servicio.destino %>
+
+                            </td>
+
+
+                            <!-- PASAJEROS -->
+
+                            <td>
+
+                                <span class="badge text-bg-primary">
+
+                                    <i class="bi bi-people"></i>
+
+                                    <%= servicio.pasajeros %>
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- VEHÍCULO -->
+
+                            <td>
+
+                                <% if (servicio.vehiculo) { %>
+
+                                    <span class="fw-semibold">
+
+                                        <%= servicio.vehiculo.placa %>
+
+                                    </span>
+
+                                    <br>
+
+                                    <small class="text-muted">
+
+                                        <%= servicio.vehiculo.tipo %>
+
+                                    </small>
+
+                                <% } else { %>
+
+                                    <span class="text-danger">
+
+                                        No asignado
+
+                                    </span>
+
+                                <% } %>
+
+                            </td>
+
+
+                            <!-- CONDUCTOR -->
+
+                            <td>
+
+                                <% if (servicio.conductor) { %>
+
+                                    <%= servicio.conductor.nombre %>
+
+                                    <%= servicio.conductor.apellido %>
+
+                                <% } else { %>
+
+                                    <span class="text-danger">
+
+                                        No asignado
+
+                                    </span>
+
+                                <% } %>
+
+                            </td>
+
+
+                            <!-- ESTADO -->
+
+                            <td>
+
+                                <% if (
+                                    servicio.estado === "Programado"
+                                ) { %>
+
+                                    <span class="badge text-bg-primary">
+
+                                        Programado
+
+                                    </span>
+
+                                <% } else if (
+                                    servicio.estado === "Realizado"
+                                ) { %>
+
+                                    <span class="badge text-bg-success">
+
+                                        Realizado
+
+                                    </span>
+
+                                <% } else if (
+                                    servicio.estado === "Cancelado"
+                                ) { %>
+
+                                    <span class="badge text-bg-danger">
+
+                                        Cancelado
+
+                                    </span>
+
+                                <% } else { %>
+
+                                    <span class="badge text-bg-secondary">
+
+                                        <%= servicio.estado %>
+
+                                    </span>
+
+                                <% } %>
+
+                            </td>
+
+
+                            <!-- ACCIONES -->
+
+                            <td>
+
+    <div class="d-flex gap-1">
+
+        <% if (servicio.estado === "Programado") { %>
+
+
+            <!-- MARCAR EL SERVICIO COMO REALIZADO  -->
+
+            <form
+                action="/servicios/realizar/<%= servicio._id %>"
+                method="POST"
+                onsubmit="return confirm('¿Desea marcar este servicio como realizado?');">
+
+                <button
+                    type="submit"
+                    class="btn btn-sm btn-success"
+                    title="Marcar como realizado">
+
+                    <i class="bi bi-check-circle"></i>
+
+                </button>
+
+            </form>
+
+
+            <!-- CANCELAR UN SERVICIO -->
+
+            <form
+                action="/servicios/cancelar/<%= servicio._id %>"
+                method="POST"
+                onsubmit="return confirm('¿Desea cancelar este servicio?');">
+
+                <button
+                    type="submit"
+                    class="btn btn-sm btn-warning"
+                    title="Cancelar servicio">
+
+                    <i class="bi bi-x-circle"></i>
+
+                </button>
+
+            </form>
+
+
+        <% } %>
+
+
+        <!-- ELIMINAR UN SERVICIO -->
+
+        <form
+            action="/servicios/eliminar/<%= servicio._id %>"
+            method="POST"
+            onsubmit="return confirm('¿Está seguro de eliminar este servicio?');">
+
+            <button
+                type="submit"
+                class="btn btn-sm btn-danger"
+                title="Eliminar">
+
+                <i class="bi bi-trash"></i>
+
+            </button>
+
+        </form>
+
+    </div>
+
+</td>
+
+                        </tr>
+
+                    <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- INFORME UN INFORME  DE SERVICIOS POR VEHÍCULO  Y FECHAS -->
+
+<div class="card shadow-sm">
+
+    <div class="card-header bg-dark text-white">
+
+        <i class="bi bi-file-earmark-bar-graph"></i>
+
+        Informe de servicios
+
+    </div>
+
+
+    <div class="card-body">
+
+        <p class="text-muted">
+
+            Consulte los servicios realizados para un vehículo
+            dentro de un rango de fechas.
+
+        </p>
+
+
+        <form
+            action="/servicios/informe"
+            method="GET">
+
+            <div class="row g-3">
+
+
+                <!-- VEHÍCULO -->
+
+                <div class="col-md-4">
+
+                    <label
+                        for="vehiculoInforme"
+                        class="form-label">
+
+                        Vehículo
+
+                    </label>
+
+                    <select
+                        id="vehiculoInforme"
+                        name="vehiculo"
+                        class="form-select"
+                        required>
+
+                        <option value="">
+                            Seleccione...
+                        </option>
+
+
+                        <% vehiculos.forEach(vehiculo => { %>
+
+                            <option
+                                value="<%= vehiculo._id %>"
+                                <%= informe &&
+                                    informe.vehiculo &&
+                                    informe.vehiculo._id.toString() === vehiculo._id.toString()
+                                    ? "selected"
+                                    : "" %>>
+
+                                <%= vehiculo.placa %>
+                                -
+                                <%= vehiculo.tipo %>
+
+                            </option>
+
+                        <% }) %>
+
+                    </select>
+
+                </div>
+
+
+                <!-- FECHA INICIO -->
+
+                <div class="col-md-4">
+
+                    <label
+                        for="fechaInicio"
+                        class="form-label">
+
+                        Fecha inicial
+
+                    </label>
+
+                    <input
+                        type="date"
+                        id="fechaInicio"
+                        name="fechaInicio"
+                        class="form-control"
+                        value="<%= informe && informe.fechaInicio
+                            ? informe.fechaInicio
+                            : '' %>"
+                        required>
+
+                </div>
+
+
+                <!-- FECHA FIN -->
+
+                <div class="col-md-4">
+
+                    <label
+                        for="fechaFin"
+                        class="form-label">
+
+                        Fecha final
+
+                    </label>
+
+                    <input
+                        type="date"
+                        id="fechaFin"
+                        name="fechaFin"
+                        class="form-control"
+                        value="<%= informe && informe.fechaFin
+                            ? informe.fechaFin
+                            : '' %>"
+                        required>
+
+                </div>
+
+
+                <!-- BOTÓN PARA GENERAR INFORME -->
+
+                <div class="col-12">
+
+                    <button
+                        type="submit"
+                        class="btn btn-dark">
+
+                        <i class="bi bi-search"></i>
+
+                        Generar informe
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+
+        <!-- RESULTADO DEL INFORME -->
+
+        <% if (informe && informe.servicios) { %>
+
+
+            <hr class="my-4">
+
+
+            <h5 class="fw-bold">
+
+                Resultado del informe
+
+            </h5>
+
+
+            <div class="row g-3 mb-4">
+
+
+                <!-- TOTAL SERVICIOS REALIZADOS POR EL VEHÍCULO -->
+
+                <div class="col-md-4">
+
+                    <div class="card border-primary">
+
+                        <div class="card-body text-center">
+
+                            <i
+                                class="bi bi-calendar-check fs-2 text-primary">
+                            </i>
+
+                            <h3 class="fw-bold">
+
+                                <%= informe.servicios.length %>
+
+                            </h3>
+
+                            <p class="text-muted mb-0">
+
+                                Servicios
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TOTAL DE PASAJEROS TRANSPORTADOS -->
+
+                <div class="col-md-4">
+
+                    <div class="card border-success">
+
+                        <div class="card-body text-center">
+
+                            <i
+                                class="bi bi-people fs-2 text-success">
+                            </i>
+
+                            <h3 class="fw-bold">
+
+                                <%= informe.totalPasajeros || 0 %>
+
+                            </h3>
+
+                            <p class="text-muted mb-0">
+
+                                Pasajeros transportados
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- VEHÍCULO CONSULTADO -->
+
+                <div class="col-md-4">
+
+                    <div class="card border-dark">
+
+                        <div class="card-body text-center">
+
+                            <i
+                                class="bi bi-bus-front fs-2">
+                            </i>
+
+                            <h5 class="fw-bold mt-2">
+
+                                <%= informe.vehiculo
+                                    ? informe.vehiculo.placa
+                                    : "N/A" %>
+
+                            </h5>
+
+                            <p class="text-muted mb-0">
+
+                                Vehículo consultado
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- TABLA DEL INFORME DE SERVICIOS -->
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>Fecha</th>
+
+                            <th>Evento</th>
+
+                            <th>Origen</th>
+
+                            <th>Destino</th>
+
+                            <th>Pasajeros</th>
+
+                            <th>Conductor</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <% if (
+                            informe.servicios.length === 0
+                        ) { %>
+
+                            <tr>
+
+                                <td
+                                    colspan="6"
+                                    class="text-center text-muted">
+
+                                    No se encontraron servicios
+                                    para los criterios seleccionados.
+
+                                </td>
+
+                            </tr>
+
+                        <% } %>
+
+
+                        <% informe.servicios.forEach(servicio => { %>
+
+                            <tr>
+
+                                <td>
+
+                                    <%= new Date(
+                                        servicio.fecha
+                                    ).toLocaleDateString("es-CO") %>
+
+                                </td>
+
+                                <td>
+
+                                    <%= servicio.tipoEvento %>
+
+                                </td>
+
+                                <td>
+
+                                    <%= servicio.origen %>
+
+                                </td>
+
+                                <td>
+
+                                    <%= servicio.destino %>
+
+                                </td>
+
+                                <td>
+
+                                    <span class="badge text-bg-primary">
+
+                                        <%= servicio.pasajeros %>
+
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    <% if (servicio.conductor) { %>
+
+                                        <%= servicio.conductor.nombre %>
+
+                                        <%= servicio.conductor.apellido %>
+
+                                    <% } else { %>
+
+                                        No asignado
+
+                                    <% } %>
+
+                                </td>
+
+                            </tr>
+
+                        <% }) %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+        <% } %>
+
+    </div>
+
+</div>
+
+
+<%- include("partials/footer") %>

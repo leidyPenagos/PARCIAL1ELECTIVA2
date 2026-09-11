@@ -1,0 +1,595 @@
+<%- include("partials/header", { title: "Conductores" }) %>
+
+
+<div class="mb-4">
+
+    <h2 class="fw-bold">
+        <i class="bi bi-person-badge"></i>
+        Gestión de Conductores
+    </h2>
+
+    <p class="text-muted">
+        Administración de los conductores de la UPTC
+    </p>
+
+</div>
+
+
+<% if (error) { %>
+
+    <div class="alert alert-danger alert-dismissible fade show">
+
+        <i class="bi bi-exclamation-triangle-fill"></i>
+
+        <%= error %>
+
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert">
+        </button>
+
+    </div>
+
+<% } %>
+
+
+
+<% if (mensaje) { %>
+
+    <div class="alert alert-success alert-dismissible fade show">
+
+        <i class="bi bi-check-circle-fill"></i>
+
+        <%= mensaje %>
+
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert">
+        </button>
+
+    </div>
+
+<% } %>
+
+
+<!-- FORMULARIO -->
+
+<div class="card shadow-sm mb-4">
+
+
+    <!-- ENCABEZADO -->
+
+    <div class="card-header
+        <%= conductorEditar ? 'bg-warning' : 'bg-success' %>">
+
+        <% if (conductorEditar) { %>
+
+            <i class="bi bi-pencil-square"></i>
+
+            Editar conductor
+
+        <% } else { %>
+
+            <i class="bi bi-person-plus-fill"></i>
+
+            Registrar conductor
+
+        <% } %>
+
+    </div>
+
+
+    <div class="card-body">
+
+
+        <!-- FORMULARIO EDITAR -->
+
+        <form
+            action="<%= conductorEditar
+                ? '/conductores/editar/' + conductorEditar._id
+                : '/conductores/crear' %>"
+            method="POST">
+
+
+            <div class="row g-3">
+
+
+                <!-- NOMBRE -->
+
+                <div class="col-md-6">
+
+                    <label
+                        for="nombre"
+                        class="form-label">
+
+                        Nombre
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nombre"
+                        name="nombre"
+                        class="form-control"
+                        value="<%= conductorEditar
+                            ? conductorEditar.nombre
+                            : '' %>"
+                        required>
+
+                </div>
+
+
+                <!-- APELLIDO -->
+
+                <div class="col-md-6">
+
+                    <label
+                        for="apellido"
+                        class="form-label">
+
+                        Apellido
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="apellido"
+                        name="apellido"
+                        class="form-control"
+                        value="<%= conductorEditar
+                            ? conductorEditar.apellido
+                            : '' %>"
+                        required>
+
+                </div>
+
+
+                <!-- DOCUMENTO -->
+
+                <div class="col-md-4">
+
+                    <label
+                        for="documento"
+                        class="form-label">
+
+                        Documento
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="documento"
+                        name="documento"
+                        class="form-control"
+                        value="<%= conductorEditar
+                            ? conductorEditar.documento
+                            : '' %>"
+                        required>
+
+                </div>
+
+
+                <!-- TELÉFONO -->
+
+                <div class="col-md-4">
+
+                    <label
+                        for="telefono"
+                        class="form-label">
+
+                        Teléfono
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="telefono"
+                        name="telefono"
+                        class="form-control"
+                        value="<%= conductorEditar
+                            ? conductorEditar.telefono
+                            : '' %>">
+
+                </div>
+
+
+                <!-- LICENCIA -->
+
+                <div class="col-md-4">
+
+                    <label
+                        for="licencia"
+                        class="form-label">
+
+                        Número de licencia
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="licencia"
+                        name="licencia"
+                        class="form-control"
+                        value="<%= conductorEditar
+                            ? conductorEditar.licencia
+                            : '' %>"
+                        required>
+
+                </div>
+
+
+                <!-- CATEGORÍA -->
+
+                <div class="col-md-6">
+
+                    <label
+                        for="categoriaLicencia"
+                        class="form-label">
+
+                        Categoría de licencia
+
+                    </label>
+
+                    <select
+                        id="categoriaLicencia"
+                        name="categoriaLicencia"
+                        class="form-select"
+                        required>
+
+                        <option value="">
+                            Seleccione...
+                        </option>
+
+
+                        <option
+                            value="C1"
+                            <%= conductorEditar &&
+                                conductorEditar.categoriaLicencia === "C1"
+                                ? "selected"
+                                : "" %>>
+
+                            C1
+
+                        </option>
+
+
+                        <option
+                            value="C2"
+                            <%= conductorEditar &&
+                                conductorEditar.categoriaLicencia === "C2"
+                                ? "selected"
+                                : "" %>>
+
+                            C2
+
+                        </option>
+
+
+                        <option
+                            value="C3"
+                            <%= conductorEditar &&
+                                conductorEditar.categoriaLicencia === "C3"
+                                ? "selected"
+                                : "" %>>
+
+                            C3
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- ESTADO -->
+
+                <div class="col-md-6">
+
+                    <label
+                        for="estado"
+                        class="form-label">
+
+                        Estado
+
+                    </label>
+
+                    <select
+                        id="estado"
+                        name="estado"
+                        class="form-select"
+                        required>
+
+
+                        <option
+                            value="Activo"
+                            <%= conductorEditar &&
+                                conductorEditar.estado === "Activo"
+                                ? "selected"
+                                : "" %>>
+
+                            Activo
+
+                        </option>
+
+
+                        <option
+                            value="Inactivo"
+                            <%= conductorEditar &&
+                                conductorEditar.estado === "Inactivo"
+                                ? "selected"
+                                : "" %>>
+
+                            Inactivo
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- BOTONES -->
+
+                <div class="col-12">
+
+
+                    <% if (conductorEditar) { %>
+
+                        <button
+                            type="submit"
+                            class="btn btn-warning">
+
+                            <i class="bi bi-pencil-square"></i>
+
+                            Actualizar conductor
+
+                        </button>
+
+
+                        <a
+                            href="/conductores"
+                            class="btn btn-secondary">
+
+                            <i class="bi bi-x-circle"></i>
+
+                            Cancelar
+
+                        </a>
+
+
+                    <% } else { %>
+
+                        <button
+                            type="submit"
+                            class="btn btn-success">
+
+                            <i class="bi bi-save"></i>
+
+                            Guardar conductor
+
+                        </button>
+
+                    <% } %>
+
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- TABLA DE CONDUCTORES -->
+
+<div class="card shadow-sm">
+
+    <div class="card-header">
+
+        <i class="bi bi-people-fill"></i>
+
+        Conductores registrados
+
+    </div>
+
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table
+                class="table table-hover align-middle">
+
+                <thead class="table-success">
+
+                    <tr>
+
+                        <th>Nombre</th>
+
+                        <th>Documento</th>
+
+                        <th>Teléfono</th>
+
+                        <th>Licencia</th>
+
+                        <th>Categoría</th>
+
+                        <th>Estado</th>
+
+                        <th>Acciones</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    <% if (conductores.length === 0) { %>
+
+                        <tr>
+
+                            <td
+                                colspan="7"
+                                class="text-center text-muted py-4">
+
+                                <i class="bi bi-info-circle"></i>
+
+                                No hay conductores registrados.
+
+                            </td>
+
+                        </tr>
+
+                    <% } %>
+
+
+                    <% conductores.forEach(conductor => { %>
+
+                        <tr>
+
+
+                            <!-- NOMBRE -->
+
+                            <td class="fw-semibold">
+
+                                <%= conductor.nombre %>
+
+                                <%= conductor.apellido %>
+
+                            </td>
+
+
+                            <!-- DOCUMENTO -->
+
+                            <td>
+
+                                <%= conductor.documento %>
+
+                            </td>
+
+
+                            <!-- TELÉFONO -->
+
+                            <td>
+
+                                <%= conductor.telefono || "No registrado" %>
+
+                            </td>
+
+
+                            <!-- LICENCIA -->
+
+                            <td>
+
+                                <%= conductor.licencia %>
+
+                            </td>
+
+
+                            <!-- CATEGORÍA -->
+
+                            <td>
+
+                                <span class="badge text-bg-primary">
+
+                                    <%= conductor.categoriaLicencia %>
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- ESTADO -->
+
+                            <td>
+
+                                <% if (conductor.estado === "Activo") { %>
+
+                                    <span class="badge text-bg-success">
+
+                                        <i class="bi bi-check-circle"></i>
+
+                                        Activo
+
+                                    </span>
+
+                                <% } else { %>
+
+                                    <span class="badge text-bg-danger">
+
+                                        <i class="bi bi-x-circle"></i>
+
+                                        Inactivo
+
+                                    </span>
+
+                                <% } %>
+
+                            </td>
+
+
+                            <!-- ACCIONES -->
+
+                            <td>
+
+                                <div class="d-flex gap-1">
+
+
+                                    <!-- EDITAR -->
+
+                                    <a
+                                        href="/conductores/editar/<%= conductor._id %>"
+                                        class="btn btn-sm btn-warning"
+                                        title="Editar">
+
+                                        <i class="bi bi-pencil"></i>
+
+                                    </a>
+
+
+                                    <!-- ELIMINAR -->
+
+                                    <form
+                                        action="/conductores/eliminar/<%= conductor._id %>"
+                                        method="POST"
+                                        onsubmit="return confirm('¿Está seguro de eliminar este conductor?');">
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-sm btn-danger"
+                                            title="Eliminar">
+
+                                            <i class="bi bi-trash"></i>
+
+                                        </button>
+
+                                    </form>
+
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<%- include("partials/footer") %>

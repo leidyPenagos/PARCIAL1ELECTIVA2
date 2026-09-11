@@ -1,18 +1,334 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= titulo %></title>
-</head>
+<%- include("partials/header", { title: "Inicio" }) %>
 
-<body>
 
-    <h1><%= titulo %></h1>
+<div class="text-center mb-5">
 
-    <h2>NodeJS + Express + MongoDB Atlas + EJS</h2>
+    <div class="mb-3">
 
-    <p>Proyecto funcionando correctamente.</p>
+        <i class="bi bi-bus-front-fill text-success"
+           style="font-size: 4rem;">
+        </i>
 
-</body>
-</html>
+    </div>
+
+    <h1 class="fw-bold">
+        Sistema de Gestión de Transportes
+    </h1>
+
+    <h4 class="text-success fw-semibold">
+        UPTC - Seccional Sogamoso
+    </h4>
+
+    <p class="text-muted mt-3">
+        Sistema de información para la gestión,
+        programación y control de los servicios de transporte
+        de la Universidad Pedagógica y Tecnológica de Colombia.
+    </p>
+
+</div>
+
+<!-- MENSAJE DE ERROR -->
+
+<% if (typeof error !== "undefined" && error) { %>
+
+    <div
+        class="alert alert-danger alert-dismissible fade show"
+        role="alert">
+
+        <i class="bi bi-exclamation-triangle-fill"></i>
+
+        <%= error %>
+
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert">
+        </button>
+
+    </div>
+
+<% } %>
+
+
+<!-- MÓDULOS DEL SISTEMA  -->
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+
+
+    <!-- VEHÍCULOS -->
+
+    <div class="col">
+
+        <div class="card h-100 shadow-sm text-center">
+
+            <div class="card-body">
+
+                <i
+                    class="bi bi-bus-front-fill text-success"
+                    style="font-size: 3rem;">
+                </i>
+
+                <h5 class="card-title fw-bold mt-3">
+                    Vehículos
+                </h5>
+
+                <p class="card-text text-muted">
+                    Registre y administre los vehículos
+                    disponibles para el servicio de transporte.
+                </p>
+
+                <a
+                    href="/vehiculos"
+                    class="btn btn-success">
+
+                    <i class="bi bi-arrow-right-circle"></i>
+
+                    Gestionar vehículos
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- CONDUCTORES -->
+
+    <div class="col">
+
+        <div class="card h-100 shadow-sm text-center">
+
+            <div class="card-body">
+
+                <i
+                    class="bi bi-person-badge-fill text-primary"
+                    style="font-size: 3rem;">
+                </i>
+
+                <h5 class="card-title fw-bold mt-3">
+                    Conductores
+                </h5>
+
+                <p class="card-text text-muted">
+                    Administre la información de los conductores,
+                    sus licencias y estado.
+                </p>
+
+                <a
+                    href="/conductores"
+                    class="btn btn-primary">
+
+                    <i class="bi bi-arrow-right-circle"></i>
+
+                    Gestionar conductores
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- MANTENIMIENTOS -->
+
+    <div class="col">
+
+        <div class="card h-100 shadow-sm text-center">
+
+            <div class="card-body">
+
+                <i
+                    class="bi bi-tools text-warning"
+                    style="font-size: 3rem;">
+                </i>
+
+                <h5 class="card-title fw-bold mt-3">
+                    Mantenimientos
+                </h5>
+
+                <p class="card-text text-muted">
+                    Registre y consulte los mantenimientos
+                    preventivos y correctivos de los vehículos.
+                </p>
+
+                <a
+                    href="/mantenimientos"
+                    class="btn btn-warning">
+
+                    <i class="bi bi-arrow-right-circle"></i>
+
+                    Gestionar mantenimientos
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SERVICIOS -->
+
+    <div class="col">
+
+        <div class="card h-100 shadow-sm text-center">
+
+            <div class="card-body">
+
+                <i
+                    class="bi bi-calendar-check-fill text-dark"
+                    style="font-size: 3rem;">
+                </i>
+
+                <h5 class="card-title fw-bold mt-3">
+                    Servicios
+                </h5>
+
+                <p class="card-text text-muted">
+                    Programe servicios, valide disponibilidad
+                    y genere informes de transporte.
+                </p>
+
+                <a
+                    href="/servicios"
+                    class="btn btn-dark">
+
+                    <i class="bi bi-arrow-right-circle"></i>
+
+                    Gestionar servicios
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- INFORMACIÓN DEL SISTEMA -->
+
+<div class="card shadow-sm mt-5">
+
+    <div class="card-header bg-success text-white">
+
+        <i class="bi bi-info-circle-fill"></i>
+
+        Información del sistema
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="row text-center">
+
+
+            <!-- VEHÍCULOS -->
+
+            <div class="col-md-3 mb-3 mb-md-0">
+
+                <i
+                    class="bi bi-bus-front fs-2 text-success">
+                </i>
+
+                <h6 class="fw-bold mt-2">
+                    Gestión de vehículos
+                </h6>
+
+                <small class="text-muted">
+                    Bus, buseta y camioneta
+                </small>
+
+            </div>
+
+
+            <!-- CONDUCTORES -->
+
+            <div class="col-md-3 mb-3 mb-md-0">
+
+                <i
+                    class="bi bi-person-badge fs-2 text-primary">
+                </i>
+
+                <h6 class="fw-bold mt-2">
+                    Gestión de conductores
+                </h6>
+
+                <small class="text-muted">
+                    Información y licencias
+                </small>
+
+            </div>
+
+
+            <!-- MANTENIMIENTOS -->
+
+            <div class="col-md-3 mb-3 mb-md-0">
+
+                <i
+                    class="bi bi-wrench-adjustable fs-2 text-warning">
+                </i>
+
+                <h6 class="fw-bold mt-2">
+                    Mantenimiento
+                </h6>
+
+                <small class="text-muted">
+                    Preventivo y correctivo
+                </small>
+
+            </div>
+
+
+            <!-- SERVICIOS -->
+
+            <div class="col-md-3">
+
+                <i
+                    class="bi bi-calendar-event fs-2 text-dark">
+                </i>
+
+                <h6 class="fw-bold mt-2">
+                    Servicios
+                </h6>
+
+                <small class="text-muted">
+                    Programación e informes
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="text-center mt-5">
+
+    <p class="text-muted mb-1">
+
+        <i class="bi bi-building"></i>
+
+        Oficina Administrativa - UPTC Seccional Sogamoso
+
+    </p>
+
+    <small class="text-muted">
+
+        Sistema de Información para la Gestión de Transportes
+
+    </small>
+
+</div>
+
+
+<%- include("partials/footer") %>

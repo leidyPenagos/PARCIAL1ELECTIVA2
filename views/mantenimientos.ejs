@@ -1,0 +1,540 @@
+<%- include("partials/header", { title: "Mantenimientos" }) %>
+
+
+<div class="mb-4">
+
+    <h2 class="fw-bold">
+
+        <i class="bi bi-tools"></i>
+
+        Gestión de Mantenimientos
+
+    </h2>
+
+    <p class="text-muted">
+
+        Registro y control del mantenimiento de los vehículos
+
+    </p>
+
+</div>
+
+
+<!-- MENSAJE DE ERROR -->
+
+<% if (error) { %>
+
+    <div
+        class="alert alert-danger alert-dismissible fade show"
+        role="alert">
+
+        <i class="bi bi-exclamation-triangle-fill"></i>
+
+        <%= error %>
+
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert">
+        </button>
+
+    </div>
+
+<% } %>
+
+<!-- MENSAJE DE ÉXITO -->
+<% if (mensaje) { %>
+
+    <div
+        class="alert alert-success alert-dismissible fade show"
+        role="alert">
+
+        <i class="bi bi-check-circle-fill"></i>
+
+        <%= mensaje %>
+
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert">
+        </button>
+
+    </div>
+
+<% } %>
+
+
+<!-- FORMULARIO DE REGISTRO DE MANTENIMIENTO -->
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-header bg-success text-white">
+
+        <i class="bi bi-wrench-adjustable"></i>
+
+        Registrar mantenimiento
+
+    </div>
+
+
+    <div class="card-body">
+
+        <form
+            action="/mantenimientos/crear"
+            method="POST">
+
+            <div class="row g-3">
+
+
+                <!-- VEHÍCULO -->
+
+                <div class="col-md-6">
+
+                    <label
+                        for="vehiculo"
+                        class="form-label">
+
+                        Vehículo
+
+                    </label>
+
+                    <select
+                        id="vehiculo"
+                        name="vehiculo"
+                        class="form-select"
+                        required>
+
+                        <option value="">
+                            Seleccione un vehículo...
+                        </option>
+
+
+                        <% vehiculos.forEach(vehiculo => { %>
+
+                            <option
+                                value="<%= vehiculo._id %>">
+
+                                <%= vehiculo.placa %>
+                                -
+                                <%= vehiculo.marca %>
+                                <%= vehiculo.modelo %>
+
+                            </option>
+
+                        <% }) %>
+
+                    </select>
+
+                </div>
+
+
+                <!-- FECHA -->
+
+                <div class="col-md-6">
+
+                    <label
+                        for="fecha"
+                        class="form-label">
+
+                        Fecha del mantenimiento
+
+                    </label>
+
+                    <input
+                        type="date"
+                        id="fecha"
+                        name="fecha"
+                        class="form-control"
+                        required>
+
+                </div>
+
+
+                <!-- TIPO -->
+
+                <div class="col-md-6">
+
+                    <label
+                        for="tipo"
+                        class="form-label">
+
+                        Tipo de mantenimiento
+
+                    </label>
+
+                    <select
+                        id="tipo"
+                        name="tipo"
+                        class="form-select"
+                        required>
+
+                        <option value="">
+                            Seleccione...
+                        </option>
+
+                        <option value="Preventivo">
+                            Preventivo
+                        </option>
+
+                        <option value="Correctivo">
+                            Correctivo
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- COSTO -->
+
+                <div class="col-md-6">
+
+                    <label
+                        for="costo"
+                        class="form-label">
+
+                        Costo
+
+                    </label>
+
+                    <div class="input-group">
+
+                        <span class="input-group-text">
+                            $
+                        </span>
+
+                        <input
+                            type="number"
+                            id="costo"
+                            name="costo"
+                            class="form-control"
+                            min="0"
+                            step="0.01"
+                            placeholder="0"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- KILOMETRAJE -->
+
+                <div class="col-md-6">
+
+                    <label
+                        for="kilometraje"
+                        class="form-label">
+
+                        Kilometraje
+
+                    </label>
+
+                    <div class="input-group">
+
+                        <input
+                            type="number"
+                            id="kilometraje"
+                            name="kilometraje"
+                            class="form-control"
+                            min="0"
+                            placeholder="Ej: 85000"
+                            required>
+
+                        <span class="input-group-text">
+                            km
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DESCRIPCIÓN -->
+
+                <div class="col-md-6">
+
+                    <label
+                        for="descripcion"
+                        class="form-label">
+
+                        Descripción
+
+                    </label>
+
+                    <textarea
+                        id="descripcion"
+                        name="descripcion"
+                        class="form-control"
+                        rows="3"
+                        placeholder="Describa el mantenimiento realizado..."
+                        required></textarea>
+
+                </div>
+
+
+                <!-- OBSERVACIONES -->
+
+                <div class="col-12">
+
+                    <label
+                        for="observaciones"
+                        class="form-label">
+
+                        Observaciones
+
+                    </label>
+
+                    <textarea
+                        id="observaciones"
+                        name="observaciones"
+                        class="form-control"
+                        rows="3"
+                        placeholder="Observaciones adicionales..."></textarea>
+
+                </div>
+
+
+                <!-- BOTÓN DE REGISTRO DE MANTENIMIENTO -->
+
+                <div class="col-12">
+
+                    <button
+                        type="submit"
+                        class="btn btn-success">
+
+                        <i class="bi bi-save"></i>
+
+                        Registrar mantenimiento
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- TABLA DE MANTENIMIENTOS REGISTRADOS -->
+
+<div class="card shadow-sm">
+
+    <div class="card-header">
+
+        <i class="bi bi-clipboard2-check"></i>
+
+        Mantenimientos registrados
+
+    </div>
+
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table
+                class="table table-hover align-middle">
+
+                <thead class="table-success">
+
+                    <tr>
+
+                        <th>Fecha</th>
+
+                        <th>Vehículo</th>
+
+                        <th>Tipo</th>
+
+                        <th>Descripción</th>
+
+                        <th>Costo</th>
+
+                        <th>Kilometraje</th>
+
+                        <th>Acción</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    <% if (mantenimientos.length === 0) { %>
+
+                        <tr>
+
+                            <td
+                                colspan="7"
+                                class="text-center text-muted py-4">
+
+                                <i class="bi bi-info-circle"></i>
+
+                                No hay mantenimientos registrados.
+
+                            </td>
+
+                        </tr>
+
+                    <% } %>
+
+
+                    <% mantenimientos.forEach(mantenimiento => { %>
+
+                        <tr>
+
+
+                            <!-- FECHA -->
+
+                            <td>
+
+                                <%= new Date(
+                                    mantenimiento.fecha
+                                ).toLocaleDateString("es-CO") %>
+
+                            </td>
+
+
+                            <!-- VEHÍCULO -->
+
+                            <td>
+
+                                <% if (mantenimiento.vehiculo) { %>
+
+                                    <span class="fw-semibold">
+
+                                        <%= mantenimiento.vehiculo.placa %>
+
+                                    </span>
+
+                                    <br>
+
+                                    <small class="text-muted">
+
+                                        <%= mantenimiento.vehiculo.marca %>
+                                        <%= mantenimiento.vehiculo.modelo %>
+
+                                    </small>
+
+                                <% } else { %>
+
+                                    <span class="text-danger">
+
+                                        Vehículo no encontrado
+
+                                    </span>
+
+                                <% } %>
+
+                            </td>
+
+
+                            <!-- TIPO -->
+
+                            <td>
+
+                                <% if (
+                                    mantenimiento.tipo === "Preventivo"
+                                ) { %>
+
+                                    <span class="badge text-bg-primary">
+
+                                        <i class="bi bi-shield-check"></i>
+
+                                        Preventivo
+
+                                    </span>
+
+                                <% } else { %>
+
+                                    <span class="badge text-bg-warning">
+
+                                        <i class="bi bi-exclamation-circle"></i>
+
+                                        Correctivo
+
+                                    </span>
+
+                                <% } %>
+
+                            </td>
+
+
+                            <!-- DESCRIPCIÓN -->
+
+                            <td>
+
+                                <%= mantenimiento.descripcion %>
+
+                            </td>
+
+
+                            <!-- COSTO -->
+
+                            <td>
+
+                                $<%= Number(
+                                    mantenimiento.costo || 0
+                                ).toLocaleString("es-CO") %>
+
+                            </td>
+
+
+                            <!-- KILOMETRAJE -->
+
+                            <td>
+
+                                <%= Number(
+                                    mantenimiento.kilometraje || 0
+                                ).toLocaleString("es-CO") %>
+
+                                km
+
+                            </td>
+
+
+                            <!-- ELIMINAR -->
+
+                            <td>
+
+                                <form
+                                    action="/mantenimientos/eliminar/<%= mantenimiento._id %>"
+                                    method="POST"
+                                    onsubmit="return confirm('¿Está seguro de eliminar este mantenimiento?');">
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-sm btn-danger"
+                                        title="Eliminar">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+
+                    <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<%- include("partials/footer") %>

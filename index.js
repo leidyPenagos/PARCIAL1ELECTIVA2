@@ -1,31 +1,65 @@
 import express from "express";
 import dotenv from "dotenv";
+
 import connectDB from "./driver/connect-db.mjs";
+
+import vehiculoRoutes from "./routes/vehiculoRoutes.mjs";
+import conductorRoutes from "./routes/conductorRoutes.mjs";
+import mantenimientoRoutes from "./routes/mantenimientoRoutes.mjs";
+import servicioRoutes from "./routes/servicioRoutes.mjs";
 
 dotenv.config();
 
 const app = express();
 
-const PORT = process.env.PORT || 3000;
 
-// Conexión a MongoDB Atlas
+// CONEXIÓN A MONGODB
+
 connectDB();
 
-// Configuración de EJS
+// CONFIGURACIÓN DE EJS
+
 app.set("view engine", "ejs");
-app.set("views", "./views");
 
-// Middlewares
-app.use(express.json());
+
+// MIDDLEWARES
+
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-// Ruta principal
+
+// RUTA PRINCIPAL
+
 app.get("/", (req, res) => {
     res.render("index", {
-        titulo: "PARCIAL 1 ELECTIVA 2"
+        title: "Inicio"
     });
 });
 
+
+// RUTAS DEL SISTEMA
+
+app.use("/vehiculos", vehiculoRoutes);
+app.use("/conductores", conductorRoutes);
+app.use("/mantenimientos", mantenimientoRoutes);
+app.use("/servicios", servicioRoutes);
+
+
+
+
+app.use((req, res) => {
+    res.status(404).render("index", {
+        title: "Página no encontrada",
+        error: "La página que buscas no existe."
+    });
+});
+
+
+// INICIAR SERVIDOR EN EL PUERTO 3000
+
+const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
-    console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
+    console.log(`Servidor ejecutándose en puerto ${PORT}`);
+    console.log(`http://localhost:${PORT}`);
 });
